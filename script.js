@@ -16,10 +16,9 @@ function getComputerChoice() {
 }
 
 // -- for testing
-// let playerChoice = prompt("Rock, Papers or Scissors ??")
-// const playerSelection = playerChoice.toLowerCase()
-// const computerSelection = getComputerChoice()
-// console.log(playRound(playerSelection, computerSelection))
+const playerSelection = playerChoice.toLowerCase()
+const computerSelection = getComputerChoice()
+console.log(playRound(playerSelection, computerSelection))
 
 // next is the function to play a single round 
 // we match the results of human and computer by comparing
