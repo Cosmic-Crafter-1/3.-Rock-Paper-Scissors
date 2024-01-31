@@ -1,64 +1,121 @@
-
-// should randomly return "Rock", "Paper" or "Scissors".
-
-console.log("Hello and welcome.")
+const outputScreen = document.querySelector('.output-screen');
+outputScreen.textContent = "Hello and welcome.";
 
 function getComputerChoice() {
-
-	let randomNumber = Math.random() * 100;
-	if (randomNumber <= 30) {
+	let randomNumber = Math.floor(Math.random() * 3);
+	if (randomNumber === 0) {
 		return "rock";
-	} else if (randomNumber > 30 && randomNumber <= 65) {
+	} else if (randomNumber === 1) {
 		return "paper";
 	} else {
 		return "scissors";
 	}
 }
 
-// -- for testing
-const playerSelection = playerChoice.toLowerCase()
-const computerSelection = getComputerChoice()
-console.log(playRound(playerSelection, computerSelection))
+let playerPoints = 0;
+let computerPoints = 0;
 
-// next is the function to play a single round 
-// we match the results of human and computer by comparing
+const rock = document.querySelector('.rock');
+rock.addEventListener("click", () => playRound("rock", getComputerChoice()));
+
+const paper = document.querySelector('.paper');
+paper.addEventListener("click", () => playRound("paper", getComputerChoice()));
+
+const scissors = document.querySelector('.scissors');
+scissors.addEventListener("click", () => playRound("scissors", getComputerChoice()));
+
+const playAgain = document.querySelector('.playAgain');
+playAgain.addEventListener('click', () => {
+	playerImg.textContent = "";
+	computerImg.textContent = "";
+	outputScreen.textContent = "Let's Begin."
+	playerPoints = 0;
+	computerPoints = 0;
+});
+
+const imageScreen = document.querySelector('.image-screen');
+const playerImg = document.querySelector('.player-img');
+const computerImg = document.querySelector('.computer-img');
+
+paper.addEventListener("click", () => {
+	if(playerPoints == 5 || computerPoints == 5) {
+		return;
+	}
+	const img = document.createElement("img");
+	img.src = "images/paper.png";
+	img.classList.add("paper-img");
+	playerImg.innerHTML = "";
+	playerImg.appendChild(img);
+
+	const computerSelection = getComputerChoice();
+	const compImg = document.createElement("img");
+	compImg.src = `images/${computerSelection}.png`;
+	compImg.classList.add(`${computerSelection}-img`);
+	computerImg.innerHTML = "";
+	computerImg.appendChild(compImg);
+});
+
+rock.addEventListener("click", () => {
+	if(playerPoints == 5 || computerPoints == 5) {
+		return;
+	}
+	const img = document.createElement("img");
+	img.src = "images/rock.png";
+	img.classList.add("rock-img");
+	playerImg.innerHTML = "";
+	playerImg.appendChild(img);
+
+	const computerSelection = getComputerChoice();
+	const compImg = document.createElement("img");
+	compImg.src = `images/${computerSelection}.png`;
+	compImg.classList.add(`${computerSelection}-img`);
+	computerImg.innerHTML = "";
+	computerImg.appendChild(compImg);
+
+});
+
+scissors.addEventListener("click", () => {
+	if(playerPoints == 5 || computerPoints == 5) {
+		return;
+	}
+	const img = document.createElement("img");
+	img.src = "images/scissors.png";
+	img.classList.add("scissors-img");
+	playerImg.innerHTML = "";
+	playerImg.appendChild(img);
+
+	const computerSelection = getComputerChoice();
+	const compImg = document.createElement("img");
+	compImg.src = `images/${computerSelection}.png`;
+	compImg.classList.add(`${computerSelection}-img`);
+	computerImg.innerHTML = "";
+	computerImg.appendChild(compImg);
+});
+
 
 function playRound(playerSelection, computerSelection) {
-
-	let playerPoints = 0;
-	let computerPoints = 0;
-
-	console.log("Player's points: " + playerPoints)
-	console.log("Computer's points: " + computerPoints)
-
-	if (playerSelection.toLowerCase() === computerSelection.toLowerCase()) {
-		return "You: " + playerSelection + "\nComputer: " + computerSelection + "\n -- ugh, a TIE ."
+	if(playerPoints == 5) {
+		outputScreen.textContent =  "YOU WIN !! \n Ready for another round ??" ;
+		return;
+	} else if(computerPoints == 5) {
+		outputScreen.textContent =  "The Computer Wins. \n Ready for another round ??";
+		return;
 	}
-	else if ((playerSelection.toLowerCase() === "rock" && computerSelection.toLowerCase() == "scissors") ||
-		(playerSelection.toLowerCase() === "paper" && computerSelection.toLowerCase() == "rock") ||
-		(playerSelection.toLowerCase() === "scissors" && computerSelection.toLowerCase() == "paper")) {
-		playerPoints++
-		return "You: " + playerSelection + "\n Computer: " + computerSelection + "\n -- YAY !! You Won :)"
+	if (playerSelection === computerSelection) {
+		const outputScreen = document.querySelector('.output-screen');
+		outputScreen.textContent += "\n-- ugh, a TIE .";
+	} else if (
+		(playerSelection === "rock" && computerSelection === "scissors") ||
+		(playerSelection === "paper" && computerSelection === "rock") ||
+		(playerSelection === "scissors" && computerSelection === "paper")
+	) {
+		playerPoints++;
+		outputScreen.textContent += "\nPlayer's points: " + playerPoints + "\nComputer's points: " + computerPoints;
+	} else {
+		computerPoints++;
+		outputScreen.textContent += "\nPlayer's points: " + playerPoints + "\nComputer's points: " + computerPoints;
 	}
-	else {
-		computerPoints++
-		return "You: " + playerSelection + "\n Computer: " + computerSelection + "\n -- OOPS, You Lose, Try Again :("
+	outputScreen.textContent = "";
+	outputScreen.textContent += "\nPlayer's points: " + playerPoints + "\nComputer's points: " + computerPoints;
 
-	}
 }
-
-
-// a function to play as many rounds of games as user wishes
-
-function game() {
-	for (let i = 0; i < 5; i++) {
-		let playerChoice = prompt("Rock, Papers or Scissors ??")
-		const playerSelection = playerChoice.toLowerCase()
-		const computerSelection = getComputerChoice()
-		console.log(playRound(playerSelection, computerSelection));
-	}
-}
-
-// game()
-
-
